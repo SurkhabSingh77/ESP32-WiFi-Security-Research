@@ -1,139 +1,81 @@
-# ESP32 WiFi Security Research — README
+# ESP32 Wireless Security & Embedded Hardware Lab
 
-Version: 1.0.0  
-Last updated: 2026-01-21
+A personal learning lab documenting hands-on exploration of ESP32-based devices, third-party Bruce firmware, 2.4 GHz wireless concepts, and security improvements to a network I own.
+
+> **Project status:** Documentation-first learning project. This repository does not currently contain independently developed Bruce firmware, custom ESP32 firmware, packet-capture tools, or a validated detection engine.
 
 ## Overview
-This repository contains code, experiments, and notes for an ESP32-based WiFi security research project. The goal is to learn how the 802.11 stack and WiFi security mechanisms interact with embedded devices, to build safe testbeds for protocol analysis, and to prototype defensive and detection approaches on low-cost hardware.
 
-This project is explicitly research-oriented and intended for:
-- Security students and researchers learning about WiFi and embedded security.
-- Developers building defensive tools and detection experiments on ESP32-class hardware.
-- Educators wishing to demonstrate WiFi concepts in a controlled lab.
+I used several compact ESP32 devices to explore embedded hardware and wireless-security concepts. I installed and explored the open-source [Bruce firmware](https://github.com/pr3y/Bruce) using its web flasher, then experimented with the functionality available on the devices.
 
-Scope:
-- Firmware sketches and ESP-IDF/Arduino examples for packet capture, beacon/probe generation (for lab-only testing), and telemetry.
-- Guidance for setting up an isolated test network and capturing/analyzing 802.11 traffic.
-- Notes on mitigations, detection strategies, and ethical handling of data.
+My goal was to understand how embedded devices interact with wireless environments and apply what I learned to improve the security of my own home network.
 
-## Important legal & ethical notice (read first)
-All experiments and testing MUST be performed only on devices/networks you own or for which you have explicit written permission. Interacting with, intercepting, or attacking networks or devices that you do not own or have authorization to test is illegal in many jurisdictions and may cause serious harm.
+## Hardware used
 
-By using this repository you agree to:
-- Only test on equipment and networks you control, or where you have explicit, documented consent.
-- Follow responsible disclosure practices if you identify vulnerabilities in third-party products.
-- Comply with applicable laws and institutional policies.
+| Hardware | My use |
+| --- | --- |
+| LilyGO T-Watch S3 | ESP32-S3 smartwatch running Bruce firmware; explored its available features |
+| M5StickC Plus2 | Portable ESP32 device running Bruce; wireless-security learning and hardware experimentation |
+| 2.8-inch CYD touchscreen board | Bruce firmware on a touch-operated ESP32 display with a microSD slot |
+| NRF24 radio module | Connected and experimented with alongside the M5StickC Plus2 |
 
-If you are unsure whether an action is allowed, do not perform it — seek written permission from the owner or legal advice.
+The CYD board is identified by its visible characteristics (2.8-inch touchscreen and microSD slot). Its exact board revision and controller have not yet been verified.
 
-## Tools & Components Used
-Hardware
-- ESP32 development board (e.g., ESP32-WROOM or similar DevKit)
-- Reliable USB cable and a host PC
-- Optional: external WiFi adapter that supports monitor mode (for passive capture) — recommended for more advanced sniffing/monitoring
+## Firmware attribution
 
-Software / Libraries
-- ESP-IDF (official Espressif development framework) — recommended for lowest-level access
-- Arduino-ESP32 (alternative for Arduino users)
-- esptool.py (flashing)
-- Python 3.8+ and common packages (see requirements.txt)
-- Wireshark or tcpdump (packet capture & analysis)
-- hostapd / dnsmasq (for creating isolated test APs)
-- Optional: scapy (for crafted-frame experiments in lab)
+- **Bruce firmware:** [pr3y/Bruce](https://github.com/pr3y/Bruce), an upstream open-source project.
+- I installed it on my hardware using the project's web flasher and explored its available functionality.
+- I do not claim authorship of Bruce or its built-in features.
+- Any future code added here will be clearly identified as my own work or as third-party material with original attribution and license information.
 
-Recommended versions / links:
-- ESP-IDF: https://docs.espressif.com/projects/esp-idf/
-- Wireshark: https://www.wireshark.org/
-- scapy: https://scapy.net/
+## Areas explored
 
-## Repository layout (example)
-- /firmware/ — ESP-IDF projects and Arduino sketches
-- /tools/ — host-side helpers and capture scripts (Python)
-- /docs/ — research notes, diagrams, references
-- /examples/ — minimal example builds and safe test scenarios
-- requirements.txt — Python dependencies for host tools and scripts
+- Exploring Bruce firmware features on the devices listed above.
+- Learning about Wi-Fi operation and the 2.4 GHz band.
+- Experimenting with an NRF24 module as a separate 2.4 GHz radio platform.
+- Understanding the differences between 2.4 GHz and 5 GHz Wi-Fi bands.
+- Reviewing wireless-security settings and improving the configuration of my own home network, including enabling WPA3 where supported.
+- Exploring touchscreen interaction and microSD-based operation on the CYD board.
 
-## Quickstart — safe lab setup
-1. Hardware and network
-   - Use an isolated test network or VLAN with no internet access for experiments.
-   - Power your ESP32 and connect it via USB to your development machine.
-   - If packet capture beyond what the ESP32 can provide is needed, use a separate WiFi adapter in monitor mode on the host.
+These are areas I explored; they are not claims that I implemented the underlying firmware features or built custom attack or detection tools.
 
-2. Prerequisites (host)
-   - Install Python 3.8+ and pip.
-   - Install ESP-IDF (follow official installer) or set up Arduino-IDE with the ESP32 board package.
-   - Install Wireshark for packet analysis.
+## Learning notes
 
-3. Prepare repository (example)
-   - git clone <this-repo-url>
-   - cd <repo>
-   - python -m venv .venv
-   - source .venv/bin/activate  (Windows: .venv\Scripts\activate)
-   - pip install -r requirements.txt
+Topics to document with reproducible observations:
 
-4. Build & flash (ESP-IDF example)
-   - cd firmware/espidf-project
-   - idf.py set-target esp32
-   - idf.py build
-   - idf.py -p /dev/ttyUSB0 flash monitor
-   - The device will print logs to the monitor and start the configured safe test behavior.
+- ESP32 and ESP32-S3 hardware differences
+- Firmware flashing and recovery workflow
+- Wi-Fi bands, channels, channel width, and interference
+- WPA2/WPA3 security modes and router configuration
+- Differences between Wi-Fi and NRF24 radio protocols
+- Touchscreen and microSD usage on the CYD board
+- Safe handling of wireless observations and captured data
 
-5. Build & upload (Arduino example)
-   - Open the sketch in Arduino IDE or use PlatformIO.
-   - Select the correct board and serial port, then upload.
-   - Open the serial monitor to view output.
+## Safety and authorization
 
-6. Capture & analyze (host)
-   - If using a monitor-mode adapter:
-     - Put the adapter in monitor mode (platform-specific; e.g., via `airmon-ng` on Linux) — only on your test network or hardware you own.
-     - Start Wireshark and capture on the monitor interface.
-   - For capture from the ESP32, use the provided firmware to forward logs or summarized packet metadata to the host over serial or a dedicated management AP.
+Active security testing documented here is limited to devices and networks I own or have explicit permission to assess. I do not publish other people's network identifiers, credentials, packet captures, or personal data.
 
-Notes:
-- Replace `/dev/ttyUSB0` with the correct serial device for your OS.
-- The repository includes safe example scenarios (e.g., beacon flood simulator) that are intentionally rate-limited and designed for closed lab environments only.
+Wireless experimentation can disrupt nearby equipment. I aim to use controlled, low-impact tests and follow applicable laws and vendor guidance. This repository is for education and defensive learning, not unauthorized access or interference.
 
-## Safe experiment examples (high-level)
-- Passive packet logging: firmware collects metadata (timestamps, RSSI, frame types) and forwards anonymized logs to a host for analysis.
-- Beacon/probe generation: controlled generation of custom beacons on a lab AP to test detection signatures — strictly rate-limited and isolated.
-- Detection prototype: ESP32-based anomaly detector that flags unusual management-frame patterns and reports them for offline analysis.
+## Current repository contents
 
-Do NOT use these examples against third-party devices or networks.
+At present, this is a documentation-first record of the lab. It does not yet provide reproducible source-code projects or automated tests. Original scripts, diagrams, photos, and experiment logs will be added only when they exist and can be documented with setup instructions.
 
-## Learning outcomes
-By working through this project you will:
-- Understand ESP32 development workflow with ESP-IDF and Arduino.
-- Learn the fundamentals of 802.11 management, control, and data frames.
-- Be able to capture, filter, and analyze WiFi packets using Wireshark and related tools.
-- Gain experience building safe, reproducible wireless testbeds and experiments.
-- Learn ethical research practices, responsible disclosure, and mitigation strategies.
-- Prototype lightweight detection and telemetry on resource-constrained embedded hardware.
+## Planned documentation
 
-## Responsible disclosure & ethics
-If you discover a vulnerability in a vendor product while using this repository:
-- Stop testing that target immediately.
-- Collect minimal, non-sensitive proof-of-concept material.
-- Check the vendor's security policy or vulnerability disclosure program (VDP) for reporting instructions.
-- If none exists, contact the vendor privately and allow reasonable time for remediation before public disclosure.
-- When in doubt, consult your institution's legal or compliance team.
-
-Keep captured data secure and delete or anonymize any personally identifiable or sensitive content as soon as analysis is complete.
-
-## Contributing
-Contributions are welcome if they align with the ethical requirements above. Please:
-- Open an issue describing proposed addition or improvement.
-- Submit pull requests with tests/examples that are safe to run in a lab environment.
-- Document any potentially sensitive behavior and add clear warnings in code and documentation.
-
-## License
-This repository is provided for educational and research purposes. You may include your preferred open-source license here (e.g., MIT, Apache-2.0). Ensure license terms are compatible with any included third-party code.
-
-## Contact
-Open an issue on this repository or reach me via my GitHub profile: https://github.com/SurkhabSingh77
+- [ ] Verify exact board revisions and hardware specifications
+- [ ] Add my own photos of each device and its setup
+- [ ] Record firmware versions and flashing dates where available
+- [ ] Add a safe home-router hardening checklist
+- [ ] Document NRF24 wiring, module variant, and observed behavior
+- [ ] Add experiment notes with setup, observations, and limitations
+- [ ] Add diagrams showing the devices and their roles
 
 ## References
-- Espressif ESP-IDF documentation — https://docs.espressif.com/
-- Wireshark User Guide — https://www.wireshark.org/docs/
-- scapy — https://scapy.net/
 
-Acknowledgment: Always obtain authorization before testing. This project is intended to improve defensive capabilities and research understanding of WiFi security, not to facilitate unauthorized attacks.
+- [Bruce firmware](https://github.com/pr3y/Bruce)
+- [Espressif documentation](https://docs.espressif.com/)
+- [Wireshark](https://www.wireshark.org/)
+
+---
+A personal hardware-learning project focused on accurate documentation of what I actually flashed, configured, experimented with, and learned.
