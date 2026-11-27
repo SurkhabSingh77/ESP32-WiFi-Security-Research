@@ -61,6 +61,7 @@ Wireless experimentation can disrupt nearby equipment. I aim to use controlled, 
 
 - [Hardware inventory](docs/hardware-inventory.md) — the devices and radio module used in this lab, with unverified details clearly marked.
 - [Experiment log template](docs/experiment-log-template.md) — a reusable format for recording authorized, privacy-conscious experiments.
+- [Home Wi-Fi security hardening checklist](docs/home-wifi-security-hardening-checklist.md) — a general defensive router-review checklist; it is not a claim that every item has been checked on a specific router.
 
 ## Current repository contents
 
@@ -71,7 +72,6 @@ At present, this is a documentation-first record of the lab. It does not yet pro
 - [ ] Verify exact board revisions and hardware specifications
 - [ ] Add my own photos of each device and its setup
 - [ ] Record firmware versions and flashing dates where available
-- [ ] Add a safe home-router hardening checklist
 - [ ] Document NRF24 wiring, module variant, and observed behavior
 - [ ] Add experiment notes with setup, observations, and limitations
 - [ ] Add diagrams showing the devices and their roles
