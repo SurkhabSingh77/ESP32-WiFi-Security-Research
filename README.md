@@ -57,6 +57,11 @@ Active security testing documented here is limited to devices and networks I own
 
 Wireless experimentation can disrupt nearby equipment. I aim to use controlled, low-impact tests and follow applicable laws and vendor guidance. This repository is for education and defensive learning, not unauthorized access or interference.
 
+## Documentation
+
+- [Hardware inventory](docs/hardware-inventory.md) — the devices and radio module used in this lab, with unverified details clearly marked.
+- [Experiment log template](docs/experiment-log-template.md) — a reusable format for recording authorized, privacy-conscious experiments.
+
 ## Current repository contents
 
 At present, this is a documentation-first record of the lab. It does not yet provide reproducible source-code projects or automated tests. Original scripts, diagrams, photos, and experiment logs will be added only when they exist and can be documented with setup instructions.
